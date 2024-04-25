@@ -1,21 +1,36 @@
+init-p:
+	docker-compose run --rm prepare_for_tfstate init
 
-run:
-	docker-compose run --rm terraform ${C}
+plan-p:
+	docker-compose run --rm prepare_for_tfstate plan -var-file envs/dev/config.tfvars
+
+apply-p:
+	docker-compose run --rm prepare_for_tfstate apply -var-file envs/dev/config.tfvars
+
+destroy-p:
+	docker-compose run --rm prepare_for_tfstate destroy -var-file envs/dev/config.tfvars
+
+####################################################
 
 init-dev:
-	docker-compose run --rm terraform init -backend-config envs/dev/backend.tf -reconfigure
+	docker-compose run --rm hogehoge init -backend-config envs/dev/backend.tfbackend -reconfigure
 
 plan-dev:
-	docker-compose run --rm terraform plan -var-file envs/dev/config.tfvars
+	docker-compose run --rm hogehoge plan -var-file envs/dev/config.tfvars
 
 apply-dev:
-	docker-compose run --rm terraform apply -var-file envs/dev/config.tfvars
+	docker-compose run --rm hogehoge apply -var-file envs/dev/config.tfvars
 
 destroy-dev:
-	docker-compose run --rm terraform destroy -var-file envs/dev/config.tfvars
+	docker-compose run --rm hogehoge destroy -var-file envs/dev/config.tfvars
 
-env-list:
-	docker-compose run --rm terraform env list
+run:
+	docker-compose run --rm hogehoge ${C}
+
+# env-list:
+# 	docker-compose run --rm hogehoge env list
+
+####################################################
 
 lsd:
 	docker container ls -a
@@ -24,7 +39,7 @@ lsd:
 ####################################################
 
 sh:
-	docker container exec -it terraform ash
+	docker container exec -it hogehoge ash
 
 docker-prune:
 	docker system prune -a
