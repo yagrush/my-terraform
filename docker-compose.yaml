@@ -1,6 +1,14 @@
 version: "3"
 
 services:
+  lambda_foo:
+    image: hashicorp/terraform:1.8
+    volumes:
+      - ~/.aws:/root/.aws:ro
+      - ./lambda_foo:/workdir
+      - ./envs:/workdir/envs
+    working_dir: "/workdir"
+
   prepare_for_tfstate:
     image: hashicorp/terraform:1.8
     volumes:
