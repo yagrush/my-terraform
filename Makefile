@@ -1,3 +1,17 @@
+init-foo:
+	docker-compose run --rm lambda_foo init -backend-config envs/dev/lambda_foo.tfbackend -reconfigure
+
+plan-foo:
+	docker-compose run --rm lambda_foo plan -var-file envs/dev/config.tfvars
+
+apply-foo:
+	docker-compose run --rm lambda_foo apply -var-file envs/dev/config.tfvars
+
+destroy-foo:
+	docker-compose run --rm lambda_foo destroy -var-file envs/dev/config.tfvars
+
+####################################################
+
 init-p:
 	docker-compose run --rm prepare_for_tfstate init
 
@@ -13,7 +27,7 @@ destroy-p:
 ####################################################
 
 init-dev:
-	docker-compose run --rm hogehoge init -backend-config envs/dev/backend.tfbackend -reconfigure
+	docker-compose run --rm hogehoge init -backend-config envs/dev/hogehoge.tfbackend -reconfigure
 
 plan-dev:
 	docker-compose run --rm hogehoge plan -var-file envs/dev/config.tfvars

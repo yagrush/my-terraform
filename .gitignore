@@ -38,3 +38,5 @@ terraform.rc
 .envrc
 .terraform*
 .env copy
+
+lambda*/src/*.zip
