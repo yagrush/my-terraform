@@ -1,14 +1,23 @@
 version: "3"
 
 services:
-  terraform:
+  prepare_for_tfstate:
     image: hashicorp/terraform:1.8
     volumes:
       - ~/.aws:/root/.aws:ro
-      - ./:/workdir
+      - ./prepare_for_tfstate:/workdir
+      - ./envs:/workdir/envs
+    working_dir: "/workdir"
+
+  hogehoge:
+    image: hashicorp/terraform:1.8
+    volumes:
+      - ~/.aws:/root/.aws:ro
+      - ./hogehoge:/workdir
+      - ./envs:/workdir/envs
+    working_dir: "/workdir"
     # env_file:
     #   - .env
-    working_dir: "/workdir"
     # entrypoint: ash
     # tty: true
     # environment:
