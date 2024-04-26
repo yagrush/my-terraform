@@ -14,6 +14,7 @@ terraformで
     * AmazonS3FullAccess
     * AWSLambda_FullAccess
     * IAMFullAccess
+    * CloudWatchLogsFullAccess
 2. そのユーザーのアクセスキーを作成する
 3. `~/.aws/credentials` に以下のように書く
 (`~/.aws` はAWS CLIを使ったことがあると存在するはず なかったら自分で作る)

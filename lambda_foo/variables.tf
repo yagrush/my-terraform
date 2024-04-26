@@ -10,3 +10,6 @@ variable "bucket_region" {
   type = string
   default = "ap-northeast-1"
 }
+variable "function_name" {
+  type = string
+}
