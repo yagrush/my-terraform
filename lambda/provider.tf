@@ -10,6 +10,6 @@ terraform {
 }
 
 provider "aws" {
-  region  = "ap-northeast-1"
+  region  = var.bucket_region
   profile = var.aws_profile
 }

@@ -1,11 +1,11 @@
-# my-terraform
-
-terraformの実験場
+# serverless-scheduled-batch-by-terraform
 
 terraformで
 * tfstate管理をS3, tfstate_lock管理をDynamoDBに任せる
 * S3バケットを作る
-* lambda関数を登録する
+* ECRにlambdaのdockerイメージを登録する
+* S3にオブジェクトを書き込むlambda関数を作成する
+* EventBridgeで毎分lambda関数を実行するようスケジューリングする
 
 ## 前準備
 
@@ -15,8 +15,27 @@ terraformで
     * AWSLambda_FullAccess
     * IAMFullAccess
     * CloudWatchLogsFullAccess
-2. そのユーザーのアクセスキーを作成する
-3. `~/.aws/credentials` に以下のように書く
+    * AmazonElasticContainerRegistryPublicFullAccess
+    * AmazonEventBridgeFullAccess
+    * ecr.*
+```
+   {
+   "Version": "2012-10-17",
+   "Statement": [
+       {
+           "Sid": "VisualEditor0",
+           "Effect": "Allow",
+           "Action": [
+               "ecr:*"
+           ],
+           "Resource": "*"
+       }
+   ]
+}
+```
+
+1. そのユーザーのアクセスキーを作成する
+2. `~/.aws/credentials` に以下のように書く
 (`~/.aws` はAWS CLIを使ったことがあると存在するはず なかったら自分で作る)
 ```
 [hogehoge]
@@ -25,10 +44,11 @@ aws_secret_access_key = <シークレットアクセスキー>
 region = ap-northeast-1
 ```
 > `hogehoge` はAWSに接続する際の「プロファイル名」として後で使う
-4. 以下を各自の状況に応じて編集する
+1. 以下を各自の状況に応じて編集する
+    * `envs/dev/lambda_foo.tfbackend`
     * `envs/dev/backend.tfbackend`
     * `config.tfvars`
-5. tfstate管理用S3バケット、tfstate_lock管理用DynamoDBテーブルを作成する
+2. tfstate管理用S3バケット、tfstate_lock管理用DynamoDBテーブルを作成する
 ```
 make init-p
 make plan-p
@@ -42,9 +62,9 @@ make apply-p
 
 1. 以下を実行する
 ```
-make init-dev
-make plan-dev
-make apply-dev
+make init-s3
+make plan-s3
+make apply-s3
 ```
 `Do you want to perform these actions?` と聞かれたら `yes` と入力する
 
@@ -54,9 +74,9 @@ make apply-dev
 
 1. 以下を実行する
 ```
-make init-foo
-make plan-foo
-make apply-foo
+make init-lambda
+make plan-lambda
+make apply-lambda
 ```
 `Do you want to perform these actions?` と聞かれたら `yes` と入力する
 
@@ -67,8 +87,8 @@ make apply-foo
 
 以下を実行すると全ての手順が巻き戻される
 ```
-make destroy-foo
-make destroy-dev
+make destroy-lambda
+make destroy-s3
 make destroy-p
 ```
 `Do you really want to destroy all resources?` と聞かれたら `yes` と入力する

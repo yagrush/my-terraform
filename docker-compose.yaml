@@ -1,12 +1,16 @@
 version: "3"
 
 services:
-  lambda_foo:
-    image: hashicorp/terraform:1.8
+  lambda:
+    # lambda関数のdockerイメージを作成してECRに登録するのにdockerコマンドが要る
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - ~/.aws:/root/.aws:ro
-      - ./lambda_foo:/workdir
+      - ./lambda:/workdir
       - ./envs:/workdir/envs
+      - /var/run/docker.sock:/var/run/docker.sock # dockerコマンドを動かすのに必要
     working_dir: "/workdir"
 
   prepare_for_tfstate:
@@ -17,11 +21,11 @@ services:
       - ./envs:/workdir/envs
     working_dir: "/workdir"
 
-  hogehoge:
+  s3:
     image: hashicorp/terraform:1.8
     volumes:
       - ~/.aws:/root/.aws:ro
-      - ./hogehoge:/workdir
+      - ./s3:/workdir
       - ./envs:/workdir/envs
     working_dir: "/workdir"
     # env_file:
