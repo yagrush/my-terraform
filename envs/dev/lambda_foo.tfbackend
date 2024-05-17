@@ -3,4 +3,4 @@ bucket = "hogehoge-terraform-state"
 key = "lambda_foo_terraform.tfstate"
 profile = "hogehoge"
 encrypt  = true
-dynamodb_table = "lambda_foo_terraform_state_lock"
+dynamodb_table = "hogehoge_terraform_state_lock"

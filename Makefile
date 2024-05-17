@@ -1,14 +1,14 @@
-init-foo:
-	docker-compose run --rm lambda_foo init -backend-config envs/dev/lambda_foo.tfbackend -reconfigure
+init-lambda:
+	docker-compose run --rm lambda init -backend-config envs/dev/lambda_foo.tfbackend -reconfigure
 
-plan-foo:
-	docker-compose run --rm lambda_foo plan -var-file envs/dev/config.tfvars
+plan-lambda:
+	docker-compose run --rm lambda plan -var-file envs/dev/config.tfvars
 
-apply-foo:
-	docker-compose run --rm lambda_foo apply -var-file envs/dev/config.tfvars
+apply-lambda:
+	docker-compose run --rm lambda apply -var-file envs/dev/config.tfvars
 
-destroy-foo:
-	docker-compose run --rm lambda_foo destroy -var-file envs/dev/config.tfvars
+destroy-lambda:
+	docker-compose run --rm lambda destroy -var-file envs/dev/config.tfvars
 
 ####################################################
 
@@ -26,34 +26,26 @@ destroy-p:
 
 ####################################################
 
-init-dev:
-	docker-compose run --rm hogehoge init -backend-config envs/dev/hogehoge.tfbackend -reconfigure
+init-s3:
+	docker-compose run --rm s3 init -backend-config envs/dev/s3.tfbackend -reconfigure
 
-plan-dev:
-	docker-compose run --rm hogehoge plan -var-file envs/dev/config.tfvars
+plan-s3:
+	docker-compose run --rm s3 plan -var-file envs/dev/config.tfvars
 
-apply-dev:
-	docker-compose run --rm hogehoge apply -var-file envs/dev/config.tfvars
+apply-s3:
+	docker-compose run --rm s3 apply -var-file envs/dev/config.tfvars
 
-destroy-dev:
-	docker-compose run --rm hogehoge destroy -var-file envs/dev/config.tfvars
+destroy-s3:
+	docker-compose run --rm s3 destroy -var-file envs/dev/config.tfvars
 
 run:
-	docker-compose run --rm hogehoge ${C}
-
-# env-list:
-# 	docker-compose run --rm hogehoge env list
-
-####################################################
+	docker-compose run --rm s3 ${C}
 
 lsd:
 	docker container ls -a
 
-
-####################################################
-
 sh:
-	docker container exec -it hogehoge ash
+	docker container exec -it s3 ash
 
 docker-prune:
 	docker system prune -a
